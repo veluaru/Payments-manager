@@ -1,0 +1,44 @@
+{
+  "orders": [
+    {
+      "id": "ORD-001",
+      "proveedor": "Papelería ABC",
+      "monto": 150000,
+      "concepto": "Compra de resmas de papel Bond de 75g y bolígrafos para el equipo de operaciones.",
+      "fechaCreacion": "2026-05-20T10:00:00.000Z",
+      "estado": "BORRADOR"
+    },
+    {
+      "id": "ORD-002",
+      "proveedor": "Servicios Tech SAS",
+      "monto": 2500000,
+      "concepto": "Mantenimiento preventivo de servidores principales y renovación de certificados SSL.",
+      "fechaCreacion": "2026-05-18T14:30:00.000Z",
+      "estado": "APROBADA"
+    },
+    {
+      "id": "ORD-003",
+      "proveedor": "Suministros Globales",
+      "monto": 850000,
+      "concepto": "Cafetería y aseo: compra de café premium, galletas y elementos de limpieza mensual.",
+      "fechaCreacion": "2026-05-15T09:15:00.000Z",
+      "estado": "PAGADA"
+    },
+    {
+      "id": "ORD-004",
+      "proveedor": "Papelería ABC",
+      "monto": 420000,
+      "concepto": "Impresión de carpetas corporativas y material POP para el evento de mercadeo.",
+      "fechaCreacion": "2026-05-22T11:00:00.000Z",
+      "estado": "RECHAZADA"
+    },
+    {
+      "id": "ORD-005",
+      "proveedor": "Consultores Asociados",
+      "monto": 5000000,
+      "concepto": "Honorarios por asesoría legal y contractual del proyecto de expansión del Q2.",
+      "fechaCreacion": "2026-05-10T16:00:00.000Z",
+      "estado": "BORRADOR"
+    }
+  ]
+}

@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:fe": "vite",
+    "dev:mock": "json-server --watch db.json --port 3000",
+    "dev": "concurrently \"npm run dev:fe\" \"npm run dev:mock\"",
     "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -14,7 +16,10 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "axios": "^1.16.1",
     "pinia": "^3.0.4",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.5",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },
@@ -23,15 +28,18 @@
     "@vitejs/plugin-vue": "^6.0.6",
     "@vitest/eslint-plugin": "^1.6.16",
     "@vue/test-utils": "^2.4.6",
+    "concurrently": "^9.2.1",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.60.0",
     "eslint-plugin-vue": "~10.8.0",
     "globals": "^17.5.0",
     "jsdom": "^29.0.2",
+    "json-server": "^1.0.0-beta.15",
     "npm-run-all2": "^8.0.4",
     "oxlint": "~1.60.0",
     "prettier": "3.8.3",
+    "unplugin-vue-components": "^32.1.0",
     "vite": "^8.0.8",
     "vite-plugin-vue-devtools": "^8.1.1",
     "vitest": "^4.1.4"

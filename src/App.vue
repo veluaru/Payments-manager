@@ -1,11 +1,17 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <main class="app-container">
+    <RouterView />
+  </main>
 </template>
 
-<style scoped></style>
+<style>
+body {
+  margin: 0;
+  font-family: var(--font-family, sans-serif);
+  background-color: #f8fafc;
+  color: #334155;
+}
+.app-container {
+  min-height: 100vh;
+}
+</style>
