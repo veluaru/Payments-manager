@@ -9,24 +9,32 @@ export const useOrderStore = defineStore('order', () => {
   // --- STATE ---
   const orders = ref([])
   const currentOrder = ref(null)
+  const totalOrders = ref(0)
   const loading = ref(false)
   const error = ref(null)
 
   // --- ACTIONS ---
-  const getOrders = async () => {
+  const getOrders = async (params = {}) => {
     loading.value = true
     error.value = null
     try {
-      const response = await axios.get(API_URL)
-      orders.value = response.data
+      const response = await axios.get(API_URL, { params })
+      if (response.data && response.data.data) {
+        // If pagination is passed, the data is in response.data.data
+        orders.value = response.data.data
+        totalOrders.value = response.data.items
+      } else {
+        // Fallback if pagination is not passed
+        orders.value = response.data
+        totalOrders.value = response.data.length
+      }
     } catch (err) {
-      error.value = 'Error al cargar las órdenes de pago. Por favor, reintenta.'
+      error.value = 'Error al comunicar con el servidor financiero.'
       console.error(err)
     } finally {
       loading.value = false
     }
   }
-
   const getOrderById = async (id) => {
     loading.value = true
     error.value = null
@@ -88,5 +96,5 @@ export const useOrderStore = defineStore('order', () => {
     orders.value.unshift(newOrder)
   }
   
-  return { orders, currentOrder, loading, error, getOrders, getOrderById, updateOrder, deleteOrder, addOrder }
+  return { orders, currentOrder, loading, error, getOrders, getOrderById, updateOrder, deleteOrder, addOrder, totalOrders }
 })

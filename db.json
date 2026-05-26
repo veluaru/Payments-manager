@@ -2,43 +2,51 @@
   "orders": [
     {
       "id": "ORD-001",
-      "proveedor": "Papelería ABC",
-      "monto": 150000,
-      "concepto": "Compra de resmas de papel Bond de 75g y bolígrafos para el equipo de operaciones.",
-      "fechaCreacion": "2026-05-20T10:00:00.000Z",
-      "estado": "BORRADOR"
+      "provider": "Papelería ABC",
+      "amount": 150000,
+      "concept": "Compra de resmas de papel Bond de 75g y bolígrafos para el equipo de operaciones.",
+      "createdAt": "2026-05-20T10:00:00.000Z",
+      "status": "BORRADOR"
     },
     {
       "id": "ORD-002",
-      "proveedor": "Servicios Tech SAS",
-      "monto": 2500000,
-      "concepto": "Mantenimiento preventivo de servidores principales y renovación de certificados SSL.",
-      "fechaCreacion": "2026-05-18T14:30:00.000Z",
-      "estado": "APROBADA"
+      "provider": "Servicios Tech SAS",
+      "amount": 2500000,
+      "concept": "Mantenimiento preventivo de servidores principales y renovación de certificados SSL.",
+      "createdAt": "2026-05-18T14:30:00.000Z",
+      "status": "APROBADA"
     },
     {
       "id": "ORD-003",
-      "proveedor": "Suministros Globales",
-      "monto": 850000,
-      "concepto": "Cafetería y aseo: compra de café premium, galletas y elementos de limpieza mensual.",
-      "fechaCreacion": "2026-05-15T09:15:00.000Z",
-      "estado": "PAGADA"
+      "provider": "Suministros Globales",
+      "amount": 850000,
+      "concept": "Cafetería y aseo: compra de café premium, galletas y elementos de limpieza mensual.",
+      "createdAt": "2026-05-15T09:15:00.000Z",
+      "status": "PAGADA"
     },
     {
       "id": "ORD-004",
-      "proveedor": "Papelería ABC",
-      "monto": 420000,
-      "concepto": "Impresión de carpetas corporativas y material POP para el evento de mercadeo.",
-      "fechaCreacion": "2026-05-22T11:00:00.000Z",
-      "estado": "RECHAZADA"
+      "provider": "Papelería ABC",
+      "amount": 420000,
+      "concept": "Impresión de carpetas corporativas y material POP para el evento de mercadeo.",
+      "createdAt": "2026-05-22T11:00:00.000Z",
+      "status": "RECHAZADA"
     },
     {
       "id": "ORD-005",
-      "proveedor": "Consultores Asociados",
-      "monto": 5000000,
-      "concepto": "Honorarios por asesoría legal y contractual del proyecto de expansión del Q2.",
-      "fechaCreacion": "2026-05-10T16:00:00.000Z",
-      "estado": "BORRADOR"
+      "provider": "Consultores Asociados",
+      "amount": 5000000,
+      "concept": "Honorarios por asesoría legal y contractual del proyecto de expansión del Q2.",
+      "createdAt": "2026-05-10T16:00:00.000Z",
+      "status": "BORRADOR"
+    },
+    {
+      "id": "ORD-006",
+      "provider": "Servicios ABC",
+      "amount": 20000,
+      "concept": "Honorarios por asesoría legal y contractual del proyecto de expansión del Q2.",
+      "createdAt": "2026-05-10T16:00:00.000Z",
+      "status": "BORRADOR"
     }
   ]
 }
