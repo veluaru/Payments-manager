@@ -21,6 +21,8 @@ declare module 'vue' {
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
     OrderFilters: typeof import('./src/components/OrderFilters.vue')['default']
+    OrdersCards: typeof import('./src/components/OrdersCards.vue')['default']
+    OrdersTable: typeof import('./src/components/OrdersTable.vue')['default']
     Paginator: typeof import('primevue/paginator')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

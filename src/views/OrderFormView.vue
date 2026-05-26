@@ -328,32 +328,6 @@ const executeTransition = async () => {
   font-weight: 500;
 }
 
-.state-box {
-  text-align: center;
-  padding: 3rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  color: #64748b;
-  max-width: 650px;
-  margin: 0 auto;
-}
-
-.style-card {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
-
-.error-box {
-  background: #fef2f2;
-  border-color: #fecaca;
-  color: #991b1b;
-}
-
-.success-box {
-  background: #f0fdf4;
-  border-color: #bbf7d0;
-}
-
 @media (max-width: 640px) {
   .form-page {
     padding: 1rem 0.75rem;

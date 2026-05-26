@@ -1,76 +1,106 @@
 # Panel de Control de Órdenes Financieras
 
-## Descripción del Proyecto
-Esta aplicación es un panel de control interactivo desarrollado con **Vue 3 (Composition API)** y **PrimeVue** enfocado en la visualización, filtrado y administración de órdenes financieras. La solución se conecta a una API Mock configurada localmente para simular el intercambio de datos en tiempo real. 
+## 📝 Descripción del Proyecto
 
-Para garantizar un rendimiento óptimo ante cargas masivas de datos históricos, la arquitectura delega el procesamiento pesado (paginación, ordenamiento y filtrado) directamente al servidor (Server-Side Processing), optimizando el consumo de memoria en el navegador y reduciendo la transferencia de datos por red.
+Esta aplicación es un panel de control para la visualización, filtrado y administración del ciclo de vida de órdenes financieras. Desarrollada con **Vue 3**, **Pinia** y **PrimeVue**, la app controla los cambios de estado de cada orden y pasa el procesamiento pesado al servidor (Server-Side Processing) con **JSON-server**.
 
 ---
 
-## Requisitos Previos
-Asegúrate de tener instaladas las siguientes herramientas en tu entorno de desarrollo antes de iniciar el proyecto:
+## 📂 Estructura de Componentes y Vistas
+
+El proyecto separa limpiamente las responsabilidades visuales, lógicas y de estado:
+
+* **`views/`**
+* `OrdersListView.vue`: Controlador principal de la pantalla de listado. Administra parámetros de URL, llamadas a la store y reacciona a filtros o paginación.
+* `OrderFormView.vue`: Vista unificada para la creación y edición de órdenes financieras. Gestiona validaciones locales y las de transiciones de estados.
+* `NotFoundView.vue`: Renderizado amigable para el manejo de rutas inexistentes (Error 404).
+
+* **`components/`**
+* `OrderFilters.vue`: Componente aislado para la captura de filtros por proveedor y estado.
+* `OrdersTable.vue`: Renderizado adaptativo en formato tabla para resoluciones de escritorio.
+* `OrdersCards.vue`: Renderizado adaptativo en formato tarjetas para dispositivos móviles.
+
+* **`stores/`**
+* `orderStore.js`: Núcleo de estado global (Pinia) para la persistencia, carga de datos remotos y manejo centralizado de respuestas HTTP.
+
+---
+
+## 🚀 Requisitos e Instalación
+
+### Requisitos Previos
+
 * **Node.js** (Versión compatible: `^20.19.0` o `>=22.12.0`)
 * **npm** (Versión 9.x o superior)
 
----
+### Ejecución del Entorno Completo
 
-## Instrucciones para Ejecutar la Aplicación y el Mock de API
+El proyecto utiliza `concurrently` para orquestar tanto el servidor de desarrollo del frontend (Vite) como la API Mock local (`json-server` en el puerto 3000) mediante un único comando:
 
-### 1. Instalación de dependencias
-Clona el repositorio, navega a la carpeta raíz del proyecto y ejecuta el comando de instalación de paquetes:
 ```bash
+# 1. Instalar dependencias
 npm install
-```
 
-### 2. Lanzamiento del entorno de desarrollo completo
-El proyecto cuenta con una arquitectura automatizada mediante la herramienta concurrently. No es necesario ejecutar el servidor de datos y el cliente de forma aislada. Para levantar tanto la interfaz de usuario (Vite) como el servidor de datos (json-server en el puerto 3000) simultáneamente en una sola terminal, ejecuta:
-```bash
+# 2. Levantar Frontend y API Mock simultáneamente
 npm run dev
 ```
-Una vez inicializado, abre el navegador en la dirección local provista por la consola (habitualmente `http://localhost:5173`).
 
----
+### Ejecución de Pruebas Unitarias
 
-## Instrucciones para Ejecutar las Pruebas
+Para la validación de la lógica de la store y el comportamiento de los componentes de presentación aislados, se configuró la suite de pruebas mediante **Vitest**:
 
-### Pruebas Unitarias y de Componentes
-La validación de la lógica de los stores globales (Pinia) y el comportamiento aislado de los componentes se realiza mediante la suite de Vitest:
 ```bash
-npm run test:unit
+# Ejecutar las pruebas unitarias en modo interactivo (Watch mode)
+npm run test
+
 ```
 
 ---
 
-## Decisiones de Diseño con Justificación
+## ⚙️ Decisiones Técnicas
 
-### 1. Gestión de estado centralizada con Pinia (Setup Stores)
-- **Decisión:** Encapsular los flujos de datos y operaciones de las órdenes en `src/stores/orderStore.js` utilizando la sintaxis de inicialización moderna basada en funciones de Vue 3.
+### 1. Modularidad en Vistas mediante Sub-componentes de Presentación
 
-- **Justificación:** Separa por completo las responsabilidades de infraestructura (peticiones HTTP vía Axios) de la capa de visualización (OrderListView.vue). Esto evita el acoplamiento de código, facilita el mantenimiento y prepara la aplicación para compartir el estado de los registros entre múltiples componentes sin duplicar llamadas a la red.
+* **Por qué:** Se aisló la lógica visual del listado en unidades independientes y puras (`OrdersTable`, `OrdersCards` y `OrderFilters`), las cuales se comunican con el padre únicamente mediante `props` y `emits`.
+* **Beneficio:** Reduce drásticamente las líneas de código en `OrdersListView.vue`. Esto hace que el archivo sea mucho más legible, facilita el mantenimiento de los diseños adaptativos (escritorio vs. móvil) y prepara el terreno para añadir pruebas unitarias aisladas sin arrastrar dependencias complejas.
 
-### 2. Procesamiento de paginación y filtros en el servidor
-- **Decisión:** Consumir los parámetros de consulta nativos provistos por el backend (`?_page=1&_limit=5`) de manera dinámica en lugar de procesar arreglos globales en memoria.
+### 2. Simulación Eficaz con JSON Server
 
-- **Justificación:** Manipular o segmentar listados voluminosos del lado del cliente satura el hilo de ejecución del navegador. Al transferir el procesamiento al servidor, el cliente solo descarga e inicializa los registros requeridos para la página activa.
+* **Por qué:** Se seleccionó `json-server` porque permite simular una API REST completa en cuestión de segundos utilizando un archivo JSON como base de datos, sin necesidad de configurar entornos de backend complejos.
+* **Beneficio:** Soporta de forma nativa características avanzadas como filtrado por texto (`_like`) y paginación real basada en parámetros de URL. Esto permite validar la integración completa de red y los flujos asíncronos en el frontend de forma idéntica a un entorno de producción.
 
-### 3. Continuidad con la versión estable de json-server (v0.17.x)
-- **Decisión:** Mantener el entorno de desarrollo fijado en la versión estable tradicional (`^0.17.4`) provista en las dependencias de desarrollo, descartando migraciones a la rama 1.x.
+### 3. Orquestación del Entorno con Concurrently
 
-- **Justificación:** Tras aislar el comportamiento de las solicitudes de red, se constató que la suite v0.17.x responde correctamente enviando estructuras limpias de arreglos planos. Mantener la consistencia con esta versión evitó reescrituras complejas en el mapeo de los métodos del store y estabilizó los parámetros de paginación tradicionales (`_limit`).
+* **Por qué:** En lugar de abrir varias pestañas de la terminal para levantar el frontend (Vite) y la API de pruebas por separado, se integró el paquete `concurrently`.
+* **Beneficio:** Simplifica la experiencia de desarrollo al unificar ambos servicios bajo un único comando de arranque (`npm run dev`). Si uno de los procesos falla, la herramienta gestiona el cierre limpio del otro automáticamente.
 
-### 4. Normalización de cabeceras HTTP de Axios para el cálculo de totales
-- **Decisión:** Acceder al conteo global de elementos usando de forma estricta la propiedad en minúsculas `response.headers['x-total-count']` y transformar el resultado con `parseInt(..., 10)`.
+### 4. Automatización con unplugin-vue-components
 
-- **Justificación:** En la versión estable de json-server, el metadato del total de registros no viene incrustado en el cuerpo de la respuesta, sino en los headers. Dado que Axios convierte de forma obligatoria todas las llaves de las cabeceras de respuesta a minúsculas, la consulta con mayúsculas (X-Total-Count) retorna undefined. El casteo explícito a entero previene errores de tipado en las propiedades numéricas de PrimeVue.
+* **Por qué:** Se eligió este plugin para evitar la importación completa de la librería de PrimeVue, la cual es sumamente pesada en su totalidad. En su lugar, la herramienta detecta automáticamente qué componente se escribe en el template e importa únicamente lo que se necesita bajo demanda. Adicionalmente, se configuró para que también gestione de forma automática componentes propios de Vue.
+* **Beneficio:** Elimina por completo la necesidad de escribir manualmente una lista larga y tediosa de `imports` dentro de la sección `<script>`. Esto mantiene los archivos limpios, ahorra tiempo de desarrollo y optimiza drásticamente el tamaño final del empaquetado de la aplicación al evitar código innecesario.
 
-### 5. Uso de ref reactivo plano para el índice del paginador (listFirstIndex)
-- **Decisión:** Modificar la variable que controla el inicio del paginador visual de una propiedad computada (`computed`) a un `ref(0)` mutado manualmente en los disparadores de cambio.
+### 5. Interfaz de Usuario Consistente con PrimeVue
 
-- **Justificación:** El componente `<Paginator>` de PrimeVue modifica internamente los índices de forma bidireccional mediante `v-model:first`. Al proveer un `computed` tradicional (que es de solo lectura), Vue bloqueaba la mutación lanzando la advertencia Write operation failed: computed value is readonly. La sincronización manual en las funciones handlePageChange y handleFilterChange resolvió la advertencia sin corromper el flujo.
+* **Por qué:** Se seleccionó PrimeVue por ser una librería altamente estable y popular dentro del ecosistema de Vue, la cual ofrece una amplia variedad de componentes preconstruidos y listos para usar.
+* **Beneficio:** Facilita la construcción rápida de la aplicación al proveer elementos ya estructurados, lo que permite avanzar de forma ágil sin tener que centrar la atención ni invertir tiempo en el desarrollo de estilos desde cero.
+
+### 6. Centralización del Estado Global con Pinia
+
+* **Por qué:** Se incluyó inicialmente porque la prueba técnica lo solicitaba como requisito, aunque de igual forma constituye la herramienta más útil para gestionar el estado de la aplicación. Se implementó con el fin de manejar de manera sencilla todos los datos relacionados con la orden, facilitando su reutilización en diferentes componentes y centralizando la lógica de consumo de la API en un solo lugar.
+* **Beneficio:** Evita la duplicación de funciones de red en las vistas y asegura que cualquier componente tenga acceso inmediato a la información actualizada de las órdenes de pago de forma fácil, sin necesidad de pasar datos manualmente a través de múltiples niveles.
+
+### 7. Agilidad en el Prototipado (Exclusión de TypeScript)
+
+* **Por qué:** Para el desarrollo de esta versión, se decidió prescindir de TypeScript y escribir el proyecto en JavaScript puro para priorizar la velocidad de iteración.
+* **Beneficio:** Al tratarse de un MVP centrado en validar el comportamiento de la interfaz de usuario, las transiciones de estado y la reactividad, JavaScript permitió construir y refactorizar flujos rápidamente sin la sobrecarga de configurar tipos complejos o interfaces estrictas para una API simulada.
+
+### 8. Implementación de Paginación en el Servidor (Server-Side Pagination)
+
+* **Por qué:** En lugar de descargar todo el histórico de órdenes en el navegador y segmentarlo localmente, la paginación se procesa directamente en la API mediante parámetros de control.
+* **Beneficio:** Optimiza el consumo de memoria en el cliente y reduce el uso de red. Al transferir únicamente bloques pequeños de datos, se garantiza que la aplicación siga siendo rápida y fluida sin importar que la base de datos crezca a miles de registros históricos. Además de hacer mas simple la implementación de la lógica de paginación al hacer la mayoria en el servidor.
 
 ---
 
-## Pendientes
+## 🛠️ Próximos Pasos (Pendientes)
 
-### 1. Cobertura total de pruebas unitarias
-- **Por qué quedó pendiente:** Siguiendo una metodología iterativa de desarrollo de software, se determinó finalizar el comportamiento visual y la reactividad real de la aplicación contra el servidor Mock antes de consolidar el código de los tests unitarios. Esto evita incurrir en reescrituras constantes de pruebas rotas por ajustes de tipado o cambios estructurales menores en la fase temprana de diseño. 
+* **Cobertura de Pruebas Unitarias:** Diseñar e implementar la suite de tests unitarios (utilizando Vitest / Vue Test Utils) aprovechando la nueva naturaleza aislada y pura de los componentes de presentación extraídos.
+* **Manejo de Errores de Conectividad Inicial:** Agregar un interceptor global que mitigue caídas drásticas de red antes de que impacten los estados locales del formulario.
