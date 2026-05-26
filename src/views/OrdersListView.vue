@@ -2,9 +2,11 @@
 import { ref, onMounted } from 'vue'
 import { useOrderStore } from '@/stores/orderStore'
 import OrderFilters from '@/views/OrderFilters.vue'
+import { useRoute, useRouter } from 'vue-router'
 
+const route = useRoute()
+const router = useRouter()
 const orderStore = useOrderStore()
-
 const currentPage = ref(1)
 const rowsPerPage = ref(5)
 const listFirstIndex = ref(0)
@@ -23,6 +25,16 @@ const loadServerData = () => {
   if (activeFilters.value.status) {
     apiParams.status = activeFilters.value.status
   }
+  // Update the URL query parameters
+  router.replace({
+    query: {
+      page: currentPage.value,
+      limit: rowsPerPage.value,
+      provider: activeFilters.value.provider || undefined,
+      status: activeFilters.value.status || undefined
+    }
+  })
+  // Load the server data
   orderStore.getOrders(apiParams)
 }
 
@@ -70,6 +82,14 @@ const getStatusClass = (status) => {
 }
 
 onMounted(() => {
+  // Get the current page, limit, provider and status from the URL query parameters
+  currentPage.value = Number(route.query.page) || 1
+  rowsPerPage.value = Number(route.query.limit) || 5
+  activeFilters.value = {
+    provider: route.query.provider || '',
+    status: route.query.status || ''
+  }
+  // Load the server data
   loadServerData()
 })
 
