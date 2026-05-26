@@ -6,8 +6,7 @@
       "amount": 150004,
       "concept": "Compra de resmas de papel Bond de 75g y bolígrafos para el equipo de operaciones.",
       "createdAt": "2026-05-20T10:00:00.000Z",
-      "status": "RECHAZADA",
-      "date": null
+      "status": "RECHAZADA"
     },
     {
       "id": "ORD-002",
@@ -47,15 +46,14 @@
       "amount": 20000,
       "concept": "Honorarios por asesoría legal y contractual del proyecto de expansión del Q2.",
       "createdAt": "2026-05-10T16:00:00.000Z",
-      "status": "PAGADA",
-      "date": null
+      "status": "PAGADA"
     },
     {
       "id": "ORD-930347",
       "provider": "aaaa",
       "amount": 2,
       "concept": "asd",
-      "date": null,
+      "createdAt": null,
       "status": "PAGADA"
     },
     {
@@ -63,7 +61,7 @@
       "provider": "test",
       "amount": 2,
       "concept": "fgghfgh",
-      "date": null,
+      "createdAt": null,
       "status": "RECHAZADA"
     },
     {
@@ -71,7 +69,7 @@
       "provider": "test 2",
       "amount": 2,
       "concept": "dfgdfg",
-      "date": null,
+      "createdAt": null,
       "status": "RECHAZADA"
     },
     {
@@ -79,7 +77,6 @@
       "provider": "test 3",
       "amount": 1,
       "concept": "asda",
-      "date": "2026-05-25",
       "status": "RECHAZADA",
       "createdAt": "2026-05-26T19:23:17.595Z"
     },

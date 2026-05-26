@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useOrderStore } from '@/stores/orderStore'
-import OrderFilters from '@/views/OrderFilters.vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -213,18 +212,28 @@ onMounted(() => {
 }
 
 .view-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
 .view-title {
   font-size: 1.75rem;
-  color: #1e293b;
+  color: #0f172a;
   margin: 0 0 0.25rem 0;
 }
 
 .view-subtitle {
   color: #64748b;
   margin: 0;
+}
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .state-box {
@@ -245,12 +254,12 @@ onMounted(() => {
 .paginator-container {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
 }
 
 .mt-3 {
@@ -304,13 +313,15 @@ onMounted(() => {
 .order-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 1rem;
   cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .order-card:hover {
-  transform: scale(1.01);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
 
 .card-header {
@@ -381,16 +392,17 @@ onMounted(() => {
 }
 
 .order-provider {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #1e293b;
   margin: 0 0 0.25rem 0;
+  font-weight: 600;
 }
 
 .order-amount {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #0f172a;
-  margin: 0;
+  margin: 0 0 0.25rem 0;
 }
 
 .card-footer {
@@ -411,5 +423,17 @@ onMounted(() => {
   background: white;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
+}
+
+@media (max-width: 768px) {
+  .view-header {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 1.25rem;
+  }
+
+  .orders-container {
+    padding: 1rem 0.75rem;
+  }
 }
 </style>

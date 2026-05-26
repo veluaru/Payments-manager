@@ -20,6 +20,7 @@ declare module 'vue' {
     Dropdown: typeof import('primevue/dropdown')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    OrderFilters: typeof import('./src/components/OrderFilters.vue')['default']
     Paginator: typeof import('primevue/paginator')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -43,7 +43,7 @@ const clearFilters = () => {
       </div>
 
       <div class="filter-actions">
-        <Button label="Filtrar" icon="pi pi-filter" class="p-button-sm p-button-primary" @click="applyFilters" />
+        <Button label="Filtrar" icon="pi pi-filter" class="p-button-sm p-button-primary filter-btn" @click="applyFilters" />
         <Button label="Limpiar" icon="pi pi-filter-slash" class="p-button-sm p-button-secondary p-button-outlined"
           @click="clearFilters" />
       </div>
@@ -55,35 +55,39 @@ const clearFilters = () => {
 .filters-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
 }
 
 .filters-grid {
   display: flex;
   align-items: flex-end;
-  gap: 1rem;
+  gap: 0.875rem;
   flex-wrap: wrap;
 }
 
 .filter-field {
   flex: 1;
-  min-width: 200px;
+  min-width: 220px;
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.45rem;
 }
 
 .filter-label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #475569;
+  color: #334155;
 }
 
 .filter-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.625rem;
   margin-top: auto;
 }
 
@@ -92,6 +96,11 @@ const clearFilters = () => {
 }
 
 @media (max-width: 640px) {
+  .filters-card {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
   .filter-field {
     flex: auto;
     width: 100%;
@@ -99,7 +108,11 @@ const clearFilters = () => {
 
   .filter-actions {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: stretch;
+  }
+
+  .filter-actions :deep(.p-button) {
+    flex: 1;
   }
 }
 </style>

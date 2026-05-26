@@ -120,61 +120,64 @@ const executeTransition = async () => {
 </script>
 
 <template>
-  <div class="p-container m-4" style="max-width: 650px; margin: 0 auto;">
-
-    <div class="mb-4">
+  <div class="form-page">
+    <div class="form-header-actions">
       <Button label="Volver al Listado" icon="pi pi-arrow-left" class="p-button-text" @click="goBack" />
     </div>
 
-    <Card>
+    <Card class="form-card">
       <template #title>
-        <span class="text-xl font-bold">{{ isEditView ? `Orden: ${orderId}` : 'Crear Nueva Orden' }}</span>
+        <div class="form-title-wrap">
+          <h1 class="form-title">{{ isEditView ? `Orden: ${orderId}` : 'Crear Nueva Orden' }}</h1>
+          <p class="form-subtitle">
+            {{ isEditView ? 'Actualiza la información de la orden.' : 'Completa la información para crear una nueva orden.' }}
+          </p>
+        </div>
       </template>
 
       <template #content>
-        <div class="p-fluid">
+        <div class="form-content">
 
-          <div class="field mb-4">
-            <label for="provider" class="font-bold block mb-2">Proveedor</label>
+          <div class="form-field">
+            <label for="provider" class="form-label">Proveedor</label>
             <InputText id="provider" v-model="form.provider" :class="{ 'p-invalid': errors.provider }"
               @input="errors.provider = ''" />
             <small class="p-error block mt-1" v-if="errors.provider">{{ errors.provider }}</small>
           </div>
 
-          <div class="field mb-4">
-            <label for="amount" class="font-bold block mb-2">Monto (COP)</label>
+          <div class="form-field">
+            <label for="amount" class="form-label">Monto (COP)</label>
             <InputNumber id="amount" v-model="form.amount" mode="currency" currency="COP" locale="es-CO"
               :class="{ 'p-invalid': errors.amount }" @input="errors.amount = ''" />
             <small class="p-error block mt-1" v-if="errors.amount">{{ errors.amount }}</small>
           </div>
 
-          <div class="field mb-4">
-            <div class="flex justify-content-between mb-2">
-              <label for="concept" class="font-bold">Concepto</label>
-              <span class="text-sm text-500">{{ form.concept?.length || 0 }}/250</span>
+          <div class="form-field">
+            <div class="form-field-header">
+              <label for="concept" class="form-label">Concepto</label>
+              <span class="input-counter">{{ form.concept?.length || 0 }}/250</span>
             </div>
             <Textarea id="concept" v-model="form.concept" rows="3" maxlength="250"
               :class="{ 'p-invalid': errors.concept }" @input="errors.concept = ''" />
             <small class="p-error block mt-1" v-if="errors.concept">{{ errors.concept }}</small>
           </div>
 
-          <div class="field mb-4">
-            <label for="createdAt" class="font-bold block mb-2">Fecha de Creación</label>
+          <div class="form-field">
+            <label for="createdAt" class="form-label">Fecha de Creación</label>
             <Calendar id="createdAt" v-model="form.createdAt" dateFormat="yy-mm-dd" showIcon disabled />
           </div>
 
           <template v-if="!isEditView">
-            <div class="field mb-5">
-              <label for="status" class="font-bold block mb-2">Estado Inicial</label>
+            <div class="form-field">
+              <label for="status" class="form-label">Estado Inicial</label>
               <Dropdown id="status" v-model="form.status" :options="statusOptions" optionLabel="label"
                 optionValue="value" />
             </div>
           </template>
 
-          <div v-if="isEditView && allowedTransitions.length > 0"
-            class="field mb-5 p-3 bg-gray-50 border-round border-1 border-200">
-            <span class="font-bold block mb-3 text-700 text-sm">Cambiar Estado de la Orden:</span>
-            <div class="flex gap-3">
+          <div v-if="isEditView && allowedTransitions.length > 0" class="transition-panel">
+            <span class="transition-title">Cambiar Estado de la Orden</span>
+            <div class="transition-actions">
               <Button v-if="allowedTransitions.includes('APROBADA')" label="Aprobar" icon="pi pi-check"
                 class="p-button-success p-button-sm flex-1" :loading="orderStore.loading"
                 @click="confirmTransition('APROBADA')" />
@@ -187,19 +190,19 @@ const executeTransition = async () => {
             </div>
           </div>
 
-          <div>
-            <div class="flex justify-content-end gap-3 border-top-1 border-200 pt-4">
+          <div class="form-actions-wrap">
+            <div class="form-actions">
               <Button label="Cancelar" class="p-button-outlined p-button-secondary" @click="goBack"
                 :disabled="orderStore.loading" />
               <Button :label="isEditView ? 'Guardar Cambios' : 'Crear Orden'" class="p-button-primary"
                 :loading="orderStore.loading" :disabled="isInvalid" @click="handleSubmit" />
             </div>
 
-            <div v-if="submitError" class="p-error mt-3 text-right font-medium text-sm">
+            <div v-if="submitError" class="p-error form-error-message">
               <i class="pi pi-exclamation-triangle mr-2"></i>{{ submitError }}
             </div>
 
-            <div v-if="transitionError" class="p-error mt-3 text-right font-medium text-sm">
+            <div v-if="transitionError" class="p-error form-error-message">
               <i class="pi pi-exclamation-triangle mr-2"></i>{{ transitionError }}
             </div>
           </div>
@@ -222,6 +225,109 @@ const executeTransition = async () => {
 </template>
 
 <style scoped>
+.form-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.form-header-actions {
+  margin-bottom: 1rem;
+}
+
+.form-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+}
+
+.form-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #0f172a;
+}
+
+.form-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.input-counter {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.transition-panel {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.transition-title {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.transition-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form-actions-wrap {
+  margin-top: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.form-error-message {
+  margin-top: 0.75rem;
+  text-align: right;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
 .state-box {
   text-align: center;
   padding: 3rem;
@@ -246,5 +352,20 @@ const executeTransition = async () => {
 .success-box {
   background: #f0fdf4;
   border-color: #bbf7d0;
+}
+
+@media (max-width: 640px) {
+  .form-page {
+    padding: 1rem 0.75rem;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .transition-actions {
+    flex-direction: column;
+  }
 }
 </style>
