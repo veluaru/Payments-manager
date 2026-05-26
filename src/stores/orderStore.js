@@ -19,15 +19,10 @@ export const useOrderStore = defineStore('order', () => {
     error.value = null
     try {
       const response = await axios.get(API_URL, { params })
-      if (response.data && response.data.data) {
-        // If pagination is passed, the data is in response.data.data
-        orders.value = response.data.data
-        totalOrders.value = response.data.items
-      } else {
-        // Fallback if pagination is not passed
-        orders.value = response.data
-        totalOrders.value = response.data.length
-      }
+      orders.value = response.data
+      // Get total orders from header and convert to integer 
+      const totalFromHeader = response.headers['x-total-count']
+      totalOrders.value = totalFromHeader ? parseInt(totalFromHeader, 10) : response.data.length
     } catch (err) {
       error.value = 'Error al comunicar con el servidor financiero.'
       console.error(err)

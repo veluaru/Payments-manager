@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useOrderStore } from '@/stores/orderStore'
 import OrderFilters from '@/views/OrderFilters.vue'
 
@@ -7,18 +7,18 @@ const orderStore = useOrderStore()
 
 const currentPage = ref(1)
 const rowsPerPage = ref(5)
-const listFirstIndex = computed((() => (currentPage.value - 1) * rowsPerPage.value))
+const listFirstIndex = ref(0)
 const activeFilters = ref({ provider: null, status: null })
 
 const loadServerData = () => {
   const apiParams = {
     // JSON Server API keys for pagination
     _page: currentPage.value,
-    _per_page: rowsPerPage.value
+    _limit: rowsPerPage.value
   }
   // Check if there are active filters
   if (activeFilters.value.provider) {
-    apiParams.provider = activeFilters.value.provider
+    apiParams.provider_like = activeFilters.value.provider
   }
   if (activeFilters.value.status) {
     apiParams.status = activeFilters.value.status
@@ -27,8 +27,17 @@ const loadServerData = () => {
 }
 
 const handlePageChange = (event) => {
+  listFirstIndex.value = event.first
   currentPage.value = event.page + 1
   rowsPerPage.value = event.rows
+  loadServerData()
+}
+
+const handleFilterChange = (incomingFilters) => {
+  activeFilters.value = incomingFilters
+  // Reset the pagination when filtering
+  currentPage.value = 1
+  listFirstIndex.value = 0
   loadServerData()
 }
 
@@ -49,11 +58,15 @@ const formatDate = (dateString) => {
   })
 }
 
-const handleFilterChange = (incomingFilters) => {
-  activeFilters.value = incomingFilters
-  // Reset the pagination when filtering
-  currentPage.value = 1
-  loadServerData()
+const getStatusClass = (status) => {
+  const statusClasses = {
+    BORRADOR: 'status-borrador',
+    APROBADA: 'status-aprobada',
+    RECHAZADA: 'status-rechazada',
+    PAGADA: 'status-pagada'
+  }
+
+  return statusClasses[status] || 'status-default'
 }
 
 onMounted(() => {
@@ -67,25 +80,31 @@ onMounted(() => {
     <header class="view-header">
       <div>
         <h1 class="view-title">Gestión de Pagos</h1>
-        <p class="view-subtitle">Listado sincronizado desde el servidor (API).</p>
+        <p class="view-subtitle">Listado de órdenes de pagos a proveedores.</p>
       </div>
     </header>
     <OrderFilters @filter="handleFilterChange" />
     <main class="content-area">
+
+      <!-- Loading handling -->
       <div v-if="orderStore.loading" class="state-box">
         <ProgressSpinner style="width:40px; height:40px" />
         <p>Cargando información...</p>
       </div>
 
+      <!-- Error handling -->
       <div v-else-if="orderStore.error" class="state-box error-box">
         <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #ef4444" />
         <p>{{ orderStore.error }}</p>
         <Button label="Reintentar" icon="pi pi-refresh" class="p-button-sm mt-2" @click="loadServerData" />
       </div>
 
+      <!-- Success handling -->
       <div v-else>
+        <!-- Desktop view -->
         <div class="desktop-view">
           <DataTable :value="orderStore.orders" class="p-datatable-striped shadow-sm">
+            <!-- Empty state message -->
             <template #empty>
               <div class="empty-state-message">
                 <i class="pi pi-inbox" style="font-size: 2rem; color: #94a3b8; margin-bottom: 0.5rem;"></i>
@@ -104,11 +123,19 @@ onMounted(() => {
                 {{ formatDate(slotProps.data.createdAt) }}
               </template>
             </Column>
-            <Column field="status" header="Estado"></Column>
+            <Column field="status" header="Estado">
+              <template #body="slotProps">
+                <span class="status-badge" :class="getStatusClass(slotProps.data.status)">
+                  {{ slotProps.data.status }}
+                </span>
+              </template>
+            </Column>
           </DataTable>
         </div>
 
+        <!-- Mobile view -->
         <div class="mobile-view">
+          <!-- Empty state message -->
           <div v-if="orderStore.orders.length === 0" class="empty-state-message">
             <i class="pi pi-inbox" style="font-size: 2rem; color: #94a3b8; margin-bottom: 0.5rem;"></i>
             <p>No se encontraron órdenes de pago.</p>
@@ -118,7 +145,7 @@ onMounted(() => {
             <div v-for="order in orderStore.orders" :key="order.id" class="order-card shadow-sm">
               <div class="card-header">
                 <span class="order-id">{{ order.id }}</span>
-                <span class="order-status">{{ order.status }}</span>
+                <span class="order-status" :class="getStatusClass(order.status)">{{ order.status }}</span>
               </div>
               <div class="card-body">
                 <h3 class="order-provider">{{ order.provider }}</h3>
@@ -131,6 +158,7 @@ onMounted(() => {
           </div>
         </div>
 
+        <!-- Paginator -->
         <div v-if="orderStore.totalOrders > 0" class="paginator-container shadow-sm mt-3">
           <Paginator v-model:first="listFirstIndex" :rows="rowsPerPage" :totalRecords="orderStore.totalOrders"
             @page="handlePageChange" />
@@ -261,10 +289,47 @@ onMounted(() => {
 .order-status {
   font-size: 0.75rem;
   font-weight: 600;
-  background: #f1f5f9;
+  background: #e2e8f0;
+  color: #475569;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   text-transform: uppercase;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.status-borrador {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.status-aprobada {
+  background: #fef08a;
+  color: #854d0e;
+}
+
+.status-rechazada {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.status-pagada {
+  background: #bbf7d0;
+  color: #166534;
+}
+
+.status-default {
+  background: #e2e8f0;
+  color: #475569;
 }
 
 .order-provider {
