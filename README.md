@@ -9,40 +9,37 @@ Para garantizar un rendimiento óptimo ante cargas masivas de datos históricos,
 
 ## Requisitos Previos
 Asegúrate de tener instaladas las siguientes herramientas en tu entorno de desarrollo antes de iniciar el proyecto:
-* **Node.js** (Versión 18.x o superior recomendada)
-* **npm** (Versión 9.x o superior) o gestores alternativos similares (*yarn* o *pnpm*)
+* **Node.js** (Versión compatible: `^20.19.0` o `>=22.12.0`)
+* **npm** (Versión 9.x o superior)
 
 ---
 
 ## Instrucciones para Ejecutar la Aplicación y el Mock de API
 
 ### 1. Instalación de dependencias
-Clona el repositorio, navega a la carpeta raíz del proyecto y ejecuta el comando de instalación:
+Clona el repositorio, navega a la carpeta raíz del proyecto y ejecuta el comando de instalación de paquetes:
 ```bash
 npm install
 ```
 
-### 2. Inicialización de la API Mock
-El backend simulado utiliza json-server y debe ejecutarse en el puerto 3000 para que el cliente HTTP pueda interceptar los endpoints:
-```bash
-npm run mock
-```
-*(Nota: Si el script no está configurado en tu package.json, puedes levantarlo ejecutando de forma directa: npx json-server --watch db.json --port 3000)*
-
-### 3. Lanzamiento del Frontend
-En una ventana o pestaña independiente de la terminal, arranca el servidor de desarrollo de Vite:
+### 2. Lanzamiento del entorno de desarrollo completo
+El proyecto cuenta con una arquitectura automatizada mediante la herramienta concurrently. No es necesario ejecutar el servidor de datos y el cliente de forma aislada. Para levantar tanto la interfaz de usuario (Vite) como el servidor de datos (json-server en el puerto 3000) simultáneamente en una sola terminal, ejecuta:
 ```bash
 npm run dev
 ```
-Una vez inicializado, abre el navegador en la dirección local suministrada por la consola (comúnmente http://localhost:5173).
+Una vez inicializado, abre el navegador en la dirección local provista por la consola (habitualmente `http://localhost:5173`).
+
+---
 
 ## Instrucciones para Ejecutar las Pruebas
 
 ### Pruebas Unitarias y de Componentes
-La lógica de los stores globales y el correcto comportamiento de los componentes se validan mediante la suite de Vitest:
+La validación de la lógica de los stores globales (Pinia) y el comportamiento aislado de los componentes se realiza mediante la suite de Vitest:
 ```bash
 npm run test:unit
 ```
+
+---
 
 ## Decisiones de Diseño con Justificación
 
@@ -57,9 +54,9 @@ npm run test:unit
 - **Justificación:** Manipular o segmentar listados voluminosos del lado del cliente satura el hilo de ejecución del navegador. Al transferir el procesamiento al servidor, el cliente solo descarga e inicializa los registros requeridos para la página activa.
 
 ### 3. Continuidad con la versión estable de json-server (v0.17.x)
-- **Decisión:** Mantener el entorno de desarrollo sobre la versión estable tradicional en lugar de forzar actualizaciones hacia ramas en fase de desarrollo o pre-lanzamientos (v1.0.0).
+- **Decisión:** Mantener el entorno de desarrollo fijado en la versión estable tradicional (`^0.17.4`) provista en las dependencias de desarrollo, descartando migraciones a la rama 1.x.
 
-- **Justificación:** Tras aislar el comportamiento de las solicitudes de red, se constató que la suite v0.17.x responde correctamente enviando estructuras limpias de arreglos planos. Mantener la consistencia con esta versión evitó reescrituras complejas en el mapeo de los métodos del store y estabilizó los parámetros de paginación tradicionales (_limit).
+- **Justificación:** Tras aislar el comportamiento de las solicitudes de red, se constató que la suite v0.17.x responde correctamente enviando estructuras limpias de arreglos planos. Mantener la consistencia con esta versión evitó reescrituras complejas en el mapeo de los métodos del store y estabilizó los parámetros de paginación tradicionales (`_limit`).
 
 ### 4. Normalización de cabeceras HTTP de Axios para el cálculo de totales
 - **Decisión:** Acceder al conteo global de elementos usando de forma estricta la propiedad en minúsculas `response.headers['x-total-count']` y transformar el resultado con `parseInt(..., 10)`.
@@ -71,4 +68,9 @@ npm run test:unit
 
 - **Justificación:** El componente `<Paginator>` de PrimeVue modifica internamente los índices de forma bidireccional mediante `v-model:first`. Al proveer un `computed` tradicional (que es de solo lectura), Vue bloqueaba la mutación lanzando la advertencia Write operation failed: computed value is readonly. La sincronización manual en las funciones handlePageChange y handleFilterChange resolvió la advertencia sin corromper el flujo.
 
+---
+
 ## Pendientes
+
+### 1. Cobertura total de pruebas unitarias
+- **Por qué quedó pendiente:** Siguiendo una metodología iterativa de desarrollo de software, se determinó finalizar el comportamiento visual y la reactividad real de la aplicación contra el servidor Mock antes de consolidar el código de los tests unitarios. Esto evita incurrir en reescrituras constantes de pruebas rotas por ajustes de tipado o cambios estructurales menores en la fase temprana de diseño. 
