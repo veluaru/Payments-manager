@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useOrderStore } from '@/stores/orderStore'
+import OrderFilters from '@/views/OrderFilters.vue'
 
 const orderStore = useOrderStore()
 
 const currentPage = ref(1)
 const rowsPerPage = ref(5)
 const listFirstIndex = computed((() => (currentPage.value - 1) * rowsPerPage.value))
+const activeFilters = ref({ provider: null, status: null })
 
 const loadServerData = () => {
   const apiParams = {
@@ -14,12 +16,15 @@ const loadServerData = () => {
     _page: currentPage.value,
     _per_page: rowsPerPage.value
   }
+  // Check if there are active filters
+  if (activeFilters.value.provider) {
+    apiParams.provider = activeFilters.value.provider
+  }
+  if (activeFilters.value.status) {
+    apiParams.status = activeFilters.value.status
+  }
   orderStore.getOrders(apiParams)
 }
-
-onMounted(() => {
-  loadServerData()
-})
 
 const handlePageChange = (event) => {
   currentPage.value = event.page + 1
@@ -43,6 +48,18 @@ const formatDate = (dateString) => {
     day: 'numeric'
   })
 }
+
+const handleFilterChange = (incomingFilters) => {
+  activeFilters.value = incomingFilters
+  // Reset the pagination when filtering
+  currentPage.value = 1
+  loadServerData()
+}
+
+onMounted(() => {
+  loadServerData()
+})
+
 </script>
 
 <template>
@@ -53,7 +70,7 @@ const formatDate = (dateString) => {
         <p class="view-subtitle">Listado sincronizado desde el servidor (API).</p>
       </div>
     </header>
-
+    <OrderFilters @filter="handleFilterChange" />
     <main class="content-area">
       <div v-if="orderStore.loading" class="state-box">
         <ProgressSpinner style="width:40px; height:40px" />
