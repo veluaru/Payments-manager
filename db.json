@@ -2,11 +2,12 @@
   "orders": [
     {
       "id": "ORD-001",
-      "provider": "Papelería ABC",
-      "amount": 150000,
+      "provider": "Papelería ABCaaa",
+      "amount": 150004,
       "concept": "Compra de resmas de papel Bond de 75g y bolígrafos para el equipo de operaciones.",
       "createdAt": "2026-05-20T10:00:00.000Z",
-      "status": "BORRADOR"
+      "status": "RECHAZADA",
+      "date": null
     },
     {
       "id": "ORD-002",
@@ -14,7 +15,7 @@
       "amount": 2500000,
       "concept": "Mantenimiento preventivo de servidores principales y renovación de certificados SSL.",
       "createdAt": "2026-05-18T14:30:00.000Z",
-      "status": "APROBADA"
+      "status": "PAGADA"
     },
     {
       "id": "ORD-003",
@@ -38,7 +39,7 @@
       "amount": 5000000,
       "concept": "Honorarios por asesoría legal y contractual del proyecto de expansión del Q2.",
       "createdAt": "2026-05-10T16:00:00.000Z",
-      "status": "BORRADOR"
+      "status": "RECHAZADA"
     },
     {
       "id": "ORD-006",
@@ -46,7 +47,57 @@
       "amount": 20000,
       "concept": "Honorarios por asesoría legal y contractual del proyecto de expansión del Q2.",
       "createdAt": "2026-05-10T16:00:00.000Z",
-      "status": "BORRADOR"
+      "status": "PAGADA",
+      "date": null
+    },
+    {
+      "id": "ORD-930347",
+      "provider": "aaaa",
+      "amount": 2,
+      "concept": "asd",
+      "date": null,
+      "status": "PAGADA"
+    },
+    {
+      "id": "ORD-224264",
+      "provider": "test",
+      "amount": 2,
+      "concept": "fgghfgh",
+      "date": null,
+      "status": "RECHAZADA"
+    },
+    {
+      "id": "ORD-182906",
+      "provider": "test 2",
+      "amount": 2,
+      "concept": "dfgdfg",
+      "date": null,
+      "status": "RECHAZADA"
+    },
+    {
+      "id": "ORD-528151",
+      "provider": "test 3",
+      "amount": 1,
+      "concept": "asda",
+      "date": "2026-05-25",
+      "status": "RECHAZADA",
+      "createdAt": "2026-05-26T19:23:17.595Z"
+    },
+    {
+      "provider": "test4",
+      "amount": 6,
+      "concept": "qwaseqasdfafdsdffsdfsdf",
+      "createdAt": "2026-05-26T20:30:59.610Z",
+      "status": "BORRADOR",
+      "id": "ORD-196177"
+    },
+    {
+      "provider": "test6",
+      "amount": 1231232,
+      "concept": "asd",
+      "createdAt": "2026-05-26T20:41:10.931Z",
+      "status": "BORRADOR",
+      "id": "ORD-722760"
     }
   ]
 }

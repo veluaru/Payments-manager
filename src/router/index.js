@@ -15,13 +15,12 @@ const router = createRouter({
     {
       path: '/orders/create',
       name: 'order-create',
-      component: () => import('../views/OrderCreateView.vue')
+      component: () => import('@/views/OrderFormView.vue')
     },
     {
       path: '/orders/:id',
       name: 'order-detail',
-      component: () => import('../views/OrderDetailView.vue'),
-      props: true 
+      component: () => import('@/views/OrderFormView.vue')
     },
     {
       path: '/:pathMatch(.*)*',

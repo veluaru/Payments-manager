@@ -81,6 +81,10 @@ const getStatusClass = (status) => {
   return statusClasses[status] || 'status-default'
 }
 
+const goToDetail = (id) => {
+  router.push({ name: 'order-detail', params: { id } })
+}
+
 onMounted(() => {
   // Get the current page, limit, provider and status from the URL query parameters
   currentPage.value = Number(route.query.page) || 1
@@ -90,7 +94,9 @@ onMounted(() => {
     status: route.query.status || ''
   }
   // Load the server data
-  loadServerData()
+  if (orderStore.orders.length === 0) {
+    loadServerData()
+  }
 })
 
 </script>
@@ -102,6 +108,8 @@ onMounted(() => {
         <h1 class="view-title">Gestión de Pagos</h1>
         <p class="view-subtitle">Listado de órdenes de pagos a proveedores.</p>
       </div>
+      <Button label="Nueva Orden" icon="pi pi-plus" class="p-button-success"
+        @click="$router.push({ name: 'order-create' })" />
     </header>
     <OrderFilters @filter="handleFilterChange" />
     <main class="content-area">
@@ -131,23 +139,30 @@ onMounted(() => {
                 <p>No se encontraron órdenes de pago.</p>
               </div>
             </template>
-            <Column field="id" header="ID Único" headerStyle="width: 15%"></Column>
-            <Column field="provider" header="Proveedor" headerStyle="width: 35%"></Column>
-            <Column field="amount" header="Monto (COP)">
+            <Column field="id" header="ID Único" headerStyle="width: 10%"></Column>
+            <Column field="provider" header="Proveedor" headerStyle="width: 22%"></Column>
+            <Column field="amount" header="Monto (COP)" headerStyle="width: 16%">
               <template #body="slotProps">
                 {{ formatCurrency(slotProps.data.amount) }}
               </template>
             </Column>
-            <Column field="createdAt" header="Fecha de Creación">
+            <Column field="concept" header="Concepto" headerStyle="width: 27%"></Column>
+            <Column field="createdAt" header="Fecha de Creación" headerStyle="width: 15%">
               <template #body="slotProps">
                 {{ formatDate(slotProps.data.createdAt) }}
               </template>
             </Column>
-            <Column field="status" header="Estado">
+            <Column field="status" header="Estado" headerStyle="width: 10%">
               <template #body="slotProps">
                 <span class="status-badge" :class="getStatusClass(slotProps.data.status)">
                   {{ slotProps.data.status }}
                 </span>
+              </template>
+            </Column>
+            <Column header="Acciones" headerStyle="width: 8%; text-align: center;" bodyStyle="text-align: center;">
+              <template #body="slotProps">
+                <Button icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-sm"
+                  @click="goToDetail(slotProps.data.id)" />
               </template>
             </Column>
           </DataTable>
@@ -162,7 +177,8 @@ onMounted(() => {
           </div>
 
           <div v-else class="cards-grid">
-            <div v-for="order in orderStore.orders" :key="order.id" class="order-card shadow-sm">
+            <div v-for="order in orderStore.orders" :key="order.id" class="order-card shadow-sm"
+              @click="goToDetail(order.id)">
               <div class="card-header">
                 <span class="order-id">{{ order.id }}</span>
                 <span class="order-status" :class="getStatusClass(order.status)">{{ order.status }}</span>
@@ -170,6 +186,7 @@ onMounted(() => {
               <div class="card-body">
                 <h3 class="order-provider">{{ order.provider }}</h3>
                 <p class="order-amount">{{ formatCurrency(order.amount) }}</p>
+                <p class="order-concept">{{ order.concept }}</p>
               </div>
               <div class="card-footer">
                 <span class="order-date">Creado: {{ formatDate(order.createdAt) }}</span>
@@ -289,6 +306,11 @@ onMounted(() => {
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 1rem;
+  cursor: pointer;
+}
+
+.order-card:hover {
+  transform: scale(1.01);
 }
 
 .card-header {
@@ -314,6 +336,12 @@ onMounted(() => {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   text-transform: uppercase;
+}
+
+.order-concept {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
 }
 
 .status-badge {
