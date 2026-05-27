@@ -6,12 +6,8 @@ import { useOrderStore } from '@/stores/orderStore'
 const route = useRoute()
 const router = useRouter()
 const orderStore = useOrderStore()
-
 const orderId = route.params.id
 const isEditView = computed(() => !!orderId)
-
-// Estados del componente
-// NUEVO: Si es creación, se asigna automáticamente la fecha actual (new Date()) de forma nativa
 const form = ref({
   provider: '',
   amount: null,
@@ -19,10 +15,8 @@ const form = ref({
   createdAt: isEditView.value ? null : new Date(),
   status: 'BORRADOR'
 })
-
 const errors = ref({ provider: '', amount: '', concept: '' })
 
-// Errores de API debajo de los botones
 const submitError = ref('')
 const transitionError = ref('')
 
@@ -56,17 +50,18 @@ const validate = () => {
   return !errors.value.provider && !errors.value.amount && !errors.value.concept
 }
 
-// Guardar o Editar Orden
 const handleSubmit = async () => {
+  // Validate form
   if (!validate()) return
   submitError.value = ''
   transitionError.value = ''
 
-  // Formatea la fecha siempre a ISO String (ya viene llena por defecto)
+  // Format createdAt to ISO String
   const formattedCreatedAt = form.value.createdAt instanceof Date
     ? form.value.createdAt.toISOString()
     : new Date().toISOString()
 
+  // Create payload
   const payload = {
     ...form.value,
     provider: form.value.provider.trim(),
@@ -75,6 +70,7 @@ const handleSubmit = async () => {
     createdAt: formattedCreatedAt
   }
 
+  // Update or create order
   const success = isEditView.value
     ? await orderStore.updateOrder(orderId, payload)
     : await orderStore.createOrder({ ...payload, id: `ORD-${Math.floor(100000 + Math.random() * 900000)}` })
@@ -86,17 +82,18 @@ const handleSubmit = async () => {
   }
 }
 
-// Confirmar y aplicar cambio de estado
 const confirmTransition = (status) => {
   pendingStatus.value = status
   showConfirm.value = true
 }
 
 const executeTransition = async () => {
+  // Reset error messages
   showConfirm.value = false
   submitError.value = ''
   transitionError.value = ''
 
+  // Update order status
   const success = await orderStore.updateOrder(orderId, { status: pendingStatus.value })
 
   if (success) {
@@ -107,11 +104,13 @@ const executeTransition = async () => {
 }
 
 const handleFormShortcuts = (event) => {
+  // Escape key to close confirm dialog
   if (event.key === 'Escape' && showConfirm.value) {
     showConfirm.value = false
     return
   }
 
+  // Ctrl + S to submit form
   const hasModifierKey = event.ctrlKey || event.metaKey
   if (hasModifierKey && event.key.toLowerCase() === 's') {
     event.preventDefault()
@@ -121,6 +120,7 @@ const handleFormShortcuts = (event) => {
     return
   }
 
+  // Enter key to submit form
   if (event.key === 'Enter' && !showConfirm.value && !orderStore.loading) {
     const tagName = event.target?.tagName?.toLowerCase()
     if (tagName === 'input' || tagName === 'select') {
@@ -133,6 +133,7 @@ const handleFormShortcuts = (event) => {
 onMounted(async () => {
   window.addEventListener('keydown', handleFormShortcuts)
   if (isEditView.value) {
+    // Get order by id when editing
     const success = await orderStore.getOrderById(orderId)
     if (success && orderStore.currentOrder) {
       form.value = {
@@ -167,11 +168,14 @@ onBeforeUnmount(() => {
       </template>
 
       <template #content>
+        <!-- Loading box -->
         <div v-if="isEditView && orderStore.loading" class="form-loading-box">
           <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="4" animationDuration=".5s" />
-          <p class="loading-text">Cargando datos de la orden...</p>
+          <p class="loading-text">Loading order data...</p>
         </div>
+        <!-- Form content -->
         <div v-else class="form-content">
+          <!-- Form fields -->
           <div class="form-field">
             <label for="provider" class="form-label">Proveedor</label>
             <InputText id="provider" v-model="form.provider" :class="{ 'p-invalid': errors.provider }"
@@ -232,6 +236,7 @@ onBeforeUnmount(() => {
                 :loading="orderStore.loading" :disabled="isInvalid" @click="handleSubmit" />
             </div>
 
+            <!-- Error messages -->
             <div v-if="submitError" class="p-error form-error-message">
               <i class="pi pi-exclamation-triangle mr-2"></i>{{ submitError }}
             </div>

@@ -56,11 +56,11 @@ export const useOrderStore = defineStore('order', () => {
       const response = await axios.post(API_URL, newOrder)
       orders.value.unshift(response.data)
       totalOrders.value++
-      return true // Estructura unificada de retorno
+      return true
     } catch (err) {
       error.value = 'No se pudo registrar la orden. Por favor intente nuevamente.'
       console.error(err)
-      return false // Estructura unificada de retorno
+      return false
     } finally {
       loading.value = false
     }
@@ -72,22 +72,19 @@ export const useOrderStore = defineStore('order', () => {
     try {
       const response = await axios.patch(`${API_URL}/${id}`, updates)
       
-      // Sincroniza el detalle si corresponde a la orden actual en memoria
       if (currentOrder.value && currentOrder.value.id === id) {
         currentOrder.value = { ...currentOrder.value, ...response.data }
       }
-      
-      // Sincroniza la lista global de órdenes
       const index = orders.value.findIndex(ordersItem => ordersItem.id === id)
       if (index !== -1) {
         orders.value[index] = { ...orders.value[index], ...response.data }
       }
       
-      return true // Estructura unificada de retorno
+      return true
     } catch (err) {
       error.value = 'Hubo un error al intentar actualizar la orden.'
       console.error(err)
-      return false // Estructura unificada de retorno
+      return false
     } finally {
       loading.value = false
     }
