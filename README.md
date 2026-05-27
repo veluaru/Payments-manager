@@ -123,7 +123,3 @@ Atajos actualmente disponibles en la aplicación:
 ### 3. Actualizaciones Optimistas (Optimistic Updates)
 * **Descripción:** Implementar un mecanismo de actualizaciones optimistas al momento de cambiar el estado de una orden. Esto permitiría reflejar las transiciones visuales en la interfaz de usuario de manera instantánea, asumiendo el éxito de la operación mientras la petición HTTP se procesa en segundo plano.
 * **Justificación de su exclusión actual:** Aunque mejora significativamente la percepción de velocidad en la experiencia de usuario, requiere introducir lógica avanzada para la reversión de estados (*rollback*) ante posibles fallos de red, así como el control de ejecuciones duplicadas (*race conditions*). Para el alcance de esta entrega, se priorizó mantener un flujo de sincronización tradicional y robusto.
-
-### 4. Soporte para Modo Oscuro (Dark Mode)
-* **Descripción:** Poder cambiar entre tema claro y oscuro para que la vista descanse. La idea es guardar la preferencia del usuario en Pinia usando `localStorage` para que no se borre al recargar, y reemplazar los colores fijos de los `<style scoped>` por variables CSS globales o aprovechar el sistema de temas de PrimeVue.
-* **Justificación de su exclusión actual:** Es un detalle visual que añade bastante, pero se dejó por fuera para centrarse a lo mas crítico de esta entrega: que el ciclo de vida de las órdenes, el formulario unificado y la paginación desde el servidor funcionen de manera impecable.

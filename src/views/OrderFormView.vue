@@ -275,9 +275,9 @@ onBeforeUnmount(() => {
 }
 
 .form-card {
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+  box-shadow: var(--shadow-sm);
 }
 
 .form-title-wrap {
@@ -289,13 +289,13 @@ onBeforeUnmount(() => {
 .form-title {
   margin: 0;
   font-size: 1.5rem;
-  color: #0f172a;
+  color: var(--color-text);
 }
 
 .form-subtitle {
   margin: 0;
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
 .form-content {
@@ -312,7 +312,7 @@ onBeforeUnmount(() => {
 
 .form-label {
   font-weight: 600;
-  color: #334155;
+  color: var(--color-text);
 }
 
 .form-field-header {
@@ -332,7 +332,7 @@ onBeforeUnmount(() => {
 }
 
 .loading-text {
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 0.95rem;
   margin: 0;
   font-weight: 500;
@@ -340,14 +340,14 @@ onBeforeUnmount(() => {
 
 .input-counter {
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
 .transition-panel {
   margin-top: 0.5rem;
   padding: 1rem;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
 }
 
@@ -356,7 +356,7 @@ onBeforeUnmount(() => {
   margin-bottom: 0.75rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #334155;
+  color: var(--color-text);
 }
 
 .transition-actions {
@@ -373,7 +373,7 @@ onBeforeUnmount(() => {
   justify-content: flex-end;
   gap: 0.75rem;
   padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--color-border);
 }
 
 .form-error-message {

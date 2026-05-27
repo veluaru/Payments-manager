@@ -23,7 +23,7 @@ const emit = defineEmits(['select'])
 
 <template>
   <div v-if="orders.length === 0" class="empty-state-message">
-    <i class="pi pi-inbox" style="font-size: 2rem; color: #94a3b8; margin-bottom: 0.5rem;"></i>
+    <i class="pi pi-inbox empty-state-icon" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
     <p>No se encontraron órdenes de pago.</p>
   </div>
 
@@ -53,8 +53,8 @@ const emit = defineEmits(['select'])
 }
 
 .order-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 1rem;
   cursor: pointer;
@@ -63,29 +63,29 @@ const emit = defineEmits(['select'])
 
 .order-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--color-border-soft);
   padding-bottom: 0.5rem;
   margin-bottom: 0.75rem;
 }
 
 .order-id {
   font-weight: bold;
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 0.85rem;
 }
 
 .order-status {
   font-size: 0.75rem;
   font-weight: 600;
-  background: #e2e8f0;
-  color: #475569;
+  background: var(--status-default-bg);
+  color: var(--status-default-text);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   text-transform: uppercase;
@@ -93,38 +93,38 @@ const emit = defineEmits(['select'])
 
 .order-concept {
   font-size: 0.85rem;
-  color: #64748b;
+  color: var(--color-text-muted);
   margin: 0;
 }
 
 .status-borrador {
-  background: #e5e7eb;
-  color: #374151;
+  background: var(--status-draft-bg);
+  color: var(--status-draft-text);
 }
 
 .status-aprobada {
-  background: #fef08a;
-  color: #854d0e;
+  background: var(--status-approved-bg);
+  color: var(--status-approved-text);
 }
 
 .status-rechazada {
-  background: #fecaca;
-  color: #991b1b;
+  background: var(--status-rejected-bg);
+  color: var(--status-rejected-text);
 }
 
 .status-pagada {
-  background: #bbf7d0;
-  color: #166534;
+  background: var(--status-paid-bg);
+  color: var(--status-paid-text);
 }
 
 .status-default {
-  background: #e2e8f0;
-  color: #475569;
+  background: var(--status-default-bg);
+  color: var(--status-default-text);
 }
 
 .order-provider {
   font-size: 1rem;
-  color: #1e293b;
+  color: var(--color-text);
   margin: 0 0 0.25rem 0;
   font-weight: 600;
 }
@@ -132,16 +132,20 @@ const emit = defineEmits(['select'])
 .order-amount {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-text);
   margin: 0 0 0.25rem 0;
 }
 
 .card-footer {
   margin-top: 0.75rem;
   padding-top: 0.5rem;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--color-border-soft);
   font-size: 0.8rem;
-  color: #94a3b8;
+  color: var(--color-text-soft);
+}
+
+.empty-state-icon {
+  color: var(--color-text-soft);
 }
 
 .empty-state-message {
@@ -150,9 +154,9 @@ const emit = defineEmits(['select'])
   align-items: center;
   justify-content: center;
   padding: 3rem 1rem;
-  color: #64748b;
-  background: #ffffff;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
 }
 </style>

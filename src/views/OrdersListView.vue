@@ -121,7 +121,7 @@ onMounted(() => {
 
       <!-- Error handling -->
       <div v-else-if="orderStore.error" class="state-box error-box">
-        <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #ef4444" />
+        <i class="pi pi-exclamation-triangle state-icon-error" style="font-size: 2rem;" />
         <p>{{ orderStore.error }}</p>
         <Button label="Reintentar" icon="pi pi-refresh" class="p-button-sm mt-2" @click="loadServerData" />
       </div>
@@ -168,12 +168,12 @@ onMounted(() => {
 
 .view-title {
   font-size: 1.75rem;
-  color: #0f172a;
+  color: var(--color-text);
   margin: 0 0 0.25rem 0;
 }
 
 .view-subtitle {
-  color: #64748b;
+  color: var(--color-text-muted);
   margin: 0;
 }
 
@@ -186,27 +186,31 @@ onMounted(() => {
 .state-box {
   text-align: center;
   padding: 3rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  color: #64748b;
+  color: var(--color-text-muted);
+}
+
+.state-icon-error {
+  color: var(--color-warning-text);
 }
 
 .error-box {
-  background: #fef2f2;
-  border-color: #fecaca;
-  color: #991b1b;
+  background: var(--color-error-bg);
+  border-color: var(--color-error-border);
+  color: var(--color-error-text);
 }
 
 .paginator-container {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   overflow: hidden;
 }
 
 .shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+  box-shadow: var(--shadow-sm);
 }
 
 .mt-3 {

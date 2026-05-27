@@ -26,10 +26,10 @@
   width: 100%;
   max-width: 520px;
   padding: 2rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+  box-shadow: var(--shadow-sm);
   text-align: center;
 }
 
@@ -38,34 +38,34 @@
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1;
-  color: #0f172a;
+  color: var(--color-text);
 }
 
 .title {
   margin: 0.5rem 0 0;
   font-size: 1.5rem;
-  color: #0f172a;
+  color: var(--color-text);
 }
 
 .subtitle {
   margin: 0.75rem 0 1.5rem;
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
 .back-link {
   display: inline-block;
   padding: 0.6rem 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--color-border-strong);
   border-radius: 8px;
   font-weight: 600;
-  color: #334155;
+  color: var(--color-text);
   text-decoration: none;
   transition: all 0.18s ease;
 }
 
 .back-link:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
+  background: var(--color-surface-muted);
+  border-color: var(--color-border-strong-hover);
 }
 
 @media (max-width: 640px) {

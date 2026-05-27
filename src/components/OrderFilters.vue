@@ -53,15 +53,15 @@ const clearFilters = () => {
 
 <style scoped>
 .filters-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 1.25rem;
   margin-bottom: 1rem;
 }
 
 .shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+  box-shadow: var(--shadow-sm);
 }
 
 .filters-grid {
@@ -82,7 +82,7 @@ const clearFilters = () => {
 .filter-label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #334155;
+  color: var(--color-text);
 }
 
 .filter-actions {

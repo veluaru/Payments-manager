@@ -25,7 +25,7 @@ const emit = defineEmits(['edit'])
   <DataTable :value="orders" class="p-datatable-striped shadow-sm">
     <template #empty>
       <div class="empty-state-message">
-        <i class="pi pi-inbox" style="font-size: 2rem; color: #94a3b8; margin-bottom: 0.5rem;"></i>
+        <i class="pi pi-inbox empty-state-icon" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
         <p>No se encontraron órdenes de pago.</p>
       </div>
     </template>
@@ -64,7 +64,11 @@ const emit = defineEmits(['edit'])
   align-items: center;
   justify-content: center;
   padding: 3rem 1rem;
-  color: #64748b;
+  color: var(--color-text-muted);
+}
+
+.empty-state-icon {
+  color: var(--color-text-soft);
 }
 
 .empty-state-message p {
@@ -78,32 +82,32 @@ const emit = defineEmits(['edit'])
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   text-transform: uppercase;
-  background: #e2e8f0;
-  color: #475569;
+  background: var(--status-default-bg);
+  color: var(--status-default-text);
 }
 
 .status-borrador {
-  background: #e5e7eb;
-  color: #374151;
+  background: var(--status-draft-bg);
+  color: var(--status-draft-text);
 }
 
 .status-aprobada {
-  background: #fef08a;
-  color: #854d0e;
+  background: var(--status-approved-bg);
+  color: var(--status-approved-text);
 }
 
 .status-rechazada {
-  background: #fecaca;
-  color: #991b1b;
+  background: var(--status-rejected-bg);
+  color: var(--status-rejected-text);
 }
 
 .status-pagada {
-  background: #bbf7d0;
-  color: #166534;
+  background: var(--status-paid-bg);
+  color: var(--status-paid-text);
 }
 
 .status-default {
-  background: #e2e8f0;
-  color: #475569;
+  background: var(--status-default-bg);
+  color: var(--status-default-text);
 }
 </style>

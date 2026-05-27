@@ -1,0 +1,89 @@
+:root {
+  color-scheme: light;
+
+  /* Base surfaces */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+
+  /* Text */
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-soft: #94a3b8;
+  --color-warning-text: #ef4444;
+
+  /* Borders */
+  --color-border: #e2e8f0;
+  --color-border-soft: #f1f5f9;
+  --color-border-strong: #cbd5e1;
+  --color-border-strong-hover: #94a3b8;
+
+  /* Feedback surfaces */
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
+  --color-error-text: #991b1b;
+  --color-success-bg: #f0fdf4;
+  --color-success-border: #bbf7d0;
+  --color-success-text: #166534;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 6px 16px rgba(15, 23, 42, 0.08);
+
+  /* Status badges */
+  --status-default-bg: #e2e8f0;
+  --status-default-text: #475569;
+  --status-draft-bg: #e5e7eb;
+  --status-draft-text: #374151;
+  --status-approved-bg: #fef08a;
+  --status-approved-text: #854d0e;
+  --status-rejected-bg: #fecaca;
+  --status-rejected-text: #991b1b;
+  --status-paid-bg: #bbf7d0;
+  --status-paid-text: #166534;
+}
+
+.app-dark {
+  color-scheme: dark;
+
+  /* Base surfaces */
+  --color-bg: #0b1220;
+  --color-surface: #0f172a;
+  --color-surface-muted: #111c32;
+
+  /* Text */
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-text-soft: #64748b;
+  --color-warning-text: #f87171;
+
+  /* Borders */
+  --color-border: #23314d;
+  --color-border-soft: #1e293b;
+  --color-border-strong: #334155;
+  --color-border-strong-hover: #475569;
+
+  /* Feedback surfaces */
+  --color-error-bg: #3a1216;
+  --color-error-border: #7f1d1d;
+  --color-error-text: #fecaca;
+  --color-success-bg: #052e1d;
+  --color-success-border: #166534;
+  --color-success-text: #bbf7d0;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(2, 6, 23, 0.45);
+  --shadow-md: 0 8px 20px rgba(2, 6, 23, 0.5);
+
+  /* Status badges */
+  --status-default-bg: #334155;
+  --status-default-text: #e2e8f0;
+  --status-draft-bg: #374151;
+  --status-draft-text: #f3f4f6;
+  --status-approved-bg: #713f12;
+  --status-approved-text: #fde68a;
+  --status-rejected-bg: #7f1d1d;
+  --status-rejected-text: #fecaca;
+  --status-paid-bg: #14532d;
+  --status-paid-text: #bbf7d0;
+}
