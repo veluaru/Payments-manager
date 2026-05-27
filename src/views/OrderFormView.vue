@@ -48,18 +48,6 @@ const allowedTransitions = computed(() => {
 
 const goBack = () => router.push({ name: 'orders-list' })
 
-onMounted(async () => {
-  if (isEditView.value) {
-    const success = await orderStore.getOrderById(orderId)
-    if (success && orderStore.currentOrder) {
-      form.value = {
-        ...orderStore.currentOrder,
-        createdAt: orderStore.currentOrder.createdAt ? new Date(orderStore.currentOrder.createdAt) : null
-      }
-    }
-  }
-})
-
 const validate = () => {
   errors.value.provider = !form.value.provider?.trim() ? 'El proveedor es obligatorio.' : ''
   errors.value.amount = !form.value.amount || Number(form.value.amount) <= 0 ? 'El monto debe ser mayor a cero.' : ''
@@ -142,8 +130,17 @@ const handleFormShortcuts = (event) => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('keydown', handleFormShortcuts)
+  if (isEditView.value) {
+    const success = await orderStore.getOrderById(orderId)
+    if (success && orderStore.currentOrder) {
+      form.value = {
+        ...orderStore.currentOrder,
+        createdAt: orderStore.currentOrder.createdAt ? new Date(orderStore.currentOrder.createdAt) : null
+      }
+    }
+  }
 })
 
 onBeforeUnmount(() => {
@@ -162,14 +159,19 @@ onBeforeUnmount(() => {
         <div class="form-title-wrap">
           <h1 class="form-title">{{ isEditView ? `Orden: ${orderId}` : 'Crear Nueva Orden' }}</h1>
           <p class="form-subtitle">
-            {{ isEditView ? 'Actualiza la información de la orden.' : 'Completa la información para crear una nueva orden.' }}
+            {{ isEditView ?
+              'Actualiza la información de la orden.' :
+              'Completa la información para crear una nueva orden.' }}
           </p>
         </div>
       </template>
 
       <template #content>
-        <div class="form-content">
-
+        <div v-if="isEditView && orderStore.loading" class="form-loading-box">
+          <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="4" animationDuration=".5s" />
+          <p class="loading-text">Cargando datos de la orden...</p>
+        </div>
+        <div v-else class="form-content">
           <div class="form-field">
             <label for="provider" class="form-label">Proveedor</label>
             <InputText id="provider" v-model="form.provider" :class="{ 'p-invalid': errors.provider }"
@@ -315,6 +317,22 @@ onBeforeUnmount(() => {
   gap: 0.75rem;
 }
 
+.form-loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+}
+
+.loading-text {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
+}
+
 .input-counter {
   font-size: 0.8rem;
   color: #64748b;
@@ -372,6 +390,23 @@ onBeforeUnmount(() => {
 
   .transition-actions {
     flex-direction: column;
+  }
+}
+
+.form-page,
+.form-content {
+  animation: fadeInView 0.4s ease-out forwards;
+}
+
+@keyframes fadeInView {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

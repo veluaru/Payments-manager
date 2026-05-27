@@ -155,6 +155,7 @@ onMounted(() => {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  animation: fadeInView 0.35s ease-out forwards;
 }
 
 .view-header {
@@ -245,6 +246,18 @@ onMounted(() => {
 
   .orders-container {
     padding: 1rem 0.75rem;
+  }
+}
+
+@keyframes fadeInView {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
