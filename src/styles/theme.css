@@ -16,15 +16,11 @@
   --color-border: #e2e8f0;
   --color-border-soft: #f1f5f9;
   --color-border-strong: #cbd5e1;
-  --color-border-strong-hover: #94a3b8;
 
   /* Feedback surfaces */
   --color-error-bg: #fef2f2;
   --color-error-border: #fecaca;
   --color-error-text: #991b1b;
-  --color-success-bg: #f0fdf4;
-  --color-success-border: #bbf7d0;
-  --color-success-text: #166534;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
@@ -48,7 +44,7 @@
 
   /* Base surfaces */
   --color-bg: #0b1220;
-  --color-surface: #0f172a;
+  --color-surface: #1f2937;
   --color-surface-muted: #111c32;
 
   /* Text */
@@ -58,18 +54,14 @@
   --color-warning-text: #f87171;
 
   /* Borders */
-  --color-border: #23314d;
+  --color-border: #424b57;
   --color-border-soft: #1e293b;
   --color-border-strong: #334155;
-  --color-border-strong-hover: #475569;
 
   /* Feedback surfaces */
   --color-error-bg: #3a1216;
   --color-error-border: #7f1d1d;
   --color-error-text: #fecaca;
-  --color-success-bg: #052e1d;
-  --color-success-border: #166534;
-  --color-success-text: #bbf7d0;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(2, 6, 23, 0.45);

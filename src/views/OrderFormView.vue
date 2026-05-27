@@ -170,7 +170,7 @@ onBeforeUnmount(() => {
       <template #content>
         <!-- Loading box -->
         <div v-if="isEditView && orderStore.loading" class="form-loading-box">
-          <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="4" animationDuration=".5s" />
+          <ProgressSpinner class="form-loading-spinner" strokeWidth="4" animationDuration=".5s" />
           <p class="loading-text">Loading order data...</p>
         </div>
         <!-- Form content -->
@@ -250,7 +250,7 @@ onBeforeUnmount(() => {
       </template>
     </Card>
 
-    <Dialog v-model:visible="showConfirm" modal header="¿Confirmar acción?" :style="{ width: '400px' }">
+    <Dialog v-model:visible="showConfirm" modal header="¿Confirmar acción?" class="confirm-dialog">
       <p class="m-0 font-medium text-800">¿Está seguro de cambiar el estado de la orden a <b>{{ pendingStatus }}</b>?
       </p>
       <template #footer>
@@ -331,6 +331,11 @@ onBeforeUnmount(() => {
   gap: 1rem;
 }
 
+.form-loading-spinner {
+  width: 50px;
+  height: 50px;
+}
+
 .loading-text {
   color: var(--color-text-muted);
   font-size: 0.95rem;
@@ -401,6 +406,10 @@ onBeforeUnmount(() => {
 .form-page,
 .form-content {
   animation: fadeInView 0.4s ease-out forwards;
+}
+
+:deep(.confirm-dialog) {
+  width: 400px;
 }
 
 @keyframes fadeInView {

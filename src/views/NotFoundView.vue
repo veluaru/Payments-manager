@@ -65,7 +65,7 @@
 
 .back-link:hover {
   background: var(--color-surface-muted);
-  border-color: var(--color-border-strong-hover);
+  border-color: var(--color-border-strong);
 }
 
 @media (max-width: 640px) {

@@ -23,7 +23,7 @@ const emit = defineEmits(['select'])
 
 <template>
   <div v-if="orders.length === 0" class="empty-state-message">
-    <i class="pi pi-inbox empty-state-icon" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+    <i class="pi pi-inbox empty-state-icon"></i>
     <p>No se encontraron órdenes de pago.</p>
   </div>
 
@@ -146,6 +146,8 @@ const emit = defineEmits(['select'])
 
 .empty-state-icon {
   color: var(--color-text-soft);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .empty-state-message {

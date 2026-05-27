@@ -25,7 +25,7 @@ const emit = defineEmits(['edit'])
   <DataTable :value="orders" class="p-datatable-striped shadow-sm">
     <template #empty>
       <div class="empty-state-message">
-        <i class="pi pi-inbox empty-state-icon" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+        <i class="pi pi-inbox empty-state-icon"></i>
         <p>No se encontraron órdenes de pago.</p>
       </div>
     </template>
@@ -69,6 +69,8 @@ const emit = defineEmits(['edit'])
 
 .empty-state-icon {
   color: var(--color-text-soft);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .empty-state-message p {

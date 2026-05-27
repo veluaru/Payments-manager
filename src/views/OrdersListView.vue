@@ -115,13 +115,13 @@ onMounted(() => {
 
       <!-- Loading handling -->
       <div v-if="orderStore.loading" class="state-box">
-        <ProgressSpinner style="width:40px; height:40px" />
+        <ProgressSpinner class="state-spinner" />
         <p>Cargando información...</p>
       </div>
 
       <!-- Error handling -->
       <div v-else-if="orderStore.error" class="state-box error-box">
-        <i class="pi pi-exclamation-triangle state-icon-error" style="font-size: 2rem;" />
+        <i class="pi pi-exclamation-triangle state-icon-error" />
         <p>{{ orderStore.error }}</p>
         <Button label="Reintentar" icon="pi pi-refresh" class="p-button-sm mt-2" @click="loadServerData" />
       </div>
@@ -194,6 +194,12 @@ onMounted(() => {
 
 .state-icon-error {
   color: var(--color-warning-text);
+  font-size: 2rem;
+}
+
+.state-spinner {
+  width: 40px;
+  height: 40px;
 }
 
 .error-box {
