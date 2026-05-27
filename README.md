@@ -11,17 +11,17 @@ Esta aplicación es un panel de control para la visualización, filtrado y admin
 El proyecto separa limpiamente las responsabilidades visuales, lógicas y de estado:
 
 * **`views/`**
-* `OrdersListView.vue`: Controlador principal de la pantalla de listado. Administra parámetros de URL, llamadas a la store y reacciona a filtros o paginación.
-* `OrderFormView.vue`: Vista unificada para la creación y edición de órdenes financieras. Gestiona validaciones locales y las de transiciones de estados.
-* `NotFoundView.vue`: Renderizado amigable para el manejo de rutas inexistentes (Error 404).
+  * `OrdersListView.vue`: Controlador principal de la pantalla de listado. Administra parámetros de URL, llamadas a la store y reacciona a filtros o paginación.
+  * `OrderFormView.vue`: Vista unificada para la creación y edición de órdenes financieras. Gestiona validaciones locales y las de transiciones de estados.
+  * `NotFoundView.vue`: Renderizado amigable para el manejo de rutas inexistentes (Error 404).
 
 * **`components/`**
-* `OrderFilters.vue`: Componente aislado para la captura de filtros por proveedor y estado.
-* `OrdersTable.vue`: Renderizado adaptativo en formato tabla para resoluciones de escritorio.
-* `OrdersCards.vue`: Renderizado adaptativo en formato tarjetas para dispositivos móviles.
+  * `OrderFilters.vue`: Componente aislado para la captura de filtros por proveedor y estado.
+  * `OrdersTable.vue`: Renderizado adaptativo en formato tabla para resoluciones de escritorio.
+  * `OrdersCards.vue`: Renderizado adaptativo en formato tarjetas para dispositivos móviles.
 
 * **`stores/`**
-* `orderStore.js`: Núcleo de estado global (Pinia) para la persistencia, carga de datos remotos y manejo centralizado de respuestas HTTP.
+  * `orderStore.js`: Núcleo de estado global (Pinia) para la persistencia, carga de datos remotos y manejo centralizado de respuestas HTTP.
 
 ---
 
@@ -46,13 +46,23 @@ npm run dev
 
 ### Ejecución de Pruebas Unitarias
 
-Para la validación de la lógica de la store y el comportamiento de los componentes de presentación aislados, se configuró la suite de pruebas mediante **Vitest**:
+Para la validación del comportamiento de los componentes de presentación aislados, se configuró la suite de pruebas mediante **Vitest**:
 
 ```bash
-# Ejecutar las pruebas unitarias en modo interactivo (Watch mode)
+# Ejecutar las pruebas unitarias
 npm run test:unit
 
 ```
+
+---
+
+## ⌨️ Atajos de Teclado
+
+Atajos actualmente disponibles en la aplicación:
+
+* **`Esc`**: Cierra el diálogo de confirmación de transición de estado en `OrderFormView`.
+* **`Ctrl/Cmd + S`**: Guarda o actualiza la orden actual en `OrderFormView`.
+* **`Enter`**: Envía el formulario cuando el foco está en campos `input/select` (no aplica para `textarea`) en `OrderFormView`.
 
 ---
 
