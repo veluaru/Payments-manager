@@ -104,8 +104,12 @@ npm run test:unit
 
 ### 1. Manejo de Errores de Conectividad Inicial (Interceptores de Axios)
 * **Descripción:** Implementar un interceptor global a través de Axios para capturar caídas drásticas de red o fallos inesperados del servidor antes de que afecten directamente los estados locales de los formularios o componentes.
-* **Justificación de su exclusión actual:** Debido a que la API simulada y las peticiones requeridas para el alcance actual del proyecto son sumamente sencillas, se consideró innecesario añadir una capa global de interceptores, resolviendo el control de excepciones directamente en los puntos de consumo esenciales.
+* **Justificación de su exclusión actual:** Debido a que la API simulada y las peticiones requeridas para el alcance actual del proyecto son sencillas, se consideró innecesario añadir una capa global de interceptores, resolviendo el control de excepciones directamente en los puntos de consumo esenciales.
 
 ### 2. Abstracción de Red mediante Composable Propio (`useApi`)
 * **Descripción:** Diseñar una función composable reactiva personalizada para centralizar las peticiones HTTP. Esta abstracción permitirá gestionar de forma genérica el ciclo de vida de las consultas, automatizando el control de los estados de carga (`loading`) y la captura unificada de errores de red sin duplicar lógica en las acciones de Pinia.
 * **Justificación de su exclusión actual:** Al introducir una lógica más compleja para la gestión y abstracción del ciclo de vida de las consultas, se optó por dejarla fuera en esta etapa con el fin de priorizar un flujo de datos más directo, predecible y fácil de evaluar en las stores.
+
+### 3. Actualizaciones Optimistas (Optimistic Updates)
+* **Descripción:** Implementar un mecanismo de actualizaciones optimistas al momento de cambiar el estado de una orden. Esto permitiría reflejar las transiciones visuales en la interfaz de usuario de manera instantánea, asumiendo el éxito de la operación mientras la petición HTTP se procesa en segundo plano.
+* **Justificación de su exclusión actual:** Aunque mejora significativamente la percepción de velocidad en la experiencia de usuario, requiere introducir lógica avanzada para la reversión de estados (*rollback*) ante posibles fallos de red, así como el control de ejecuciones duplicadas (*race conditions*). Para el alcance de esta entrega, se priorizó mantener un flujo de sincronización tradicional y robusto.

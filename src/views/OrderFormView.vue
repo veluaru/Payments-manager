@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useOrderStore } from '@/stores/orderStore'
 
@@ -117,6 +117,38 @@ const executeTransition = async () => {
     transitionError.value = `No se pudo cambiar el estado a ${pendingStatus.value}.`
   }
 }
+
+const handleFormShortcuts = (event) => {
+  if (event.key === 'Escape' && showConfirm.value) {
+    showConfirm.value = false
+    return
+  }
+
+  const hasModifierKey = event.ctrlKey || event.metaKey
+  if (hasModifierKey && event.key.toLowerCase() === 's') {
+    event.preventDefault()
+    if (!showConfirm.value && !orderStore.loading) {
+      handleSubmit()
+    }
+    return
+  }
+
+  if (event.key === 'Enter' && !showConfirm.value && !orderStore.loading) {
+    const tagName = event.target?.tagName?.toLowerCase()
+    if (tagName === 'input' || tagName === 'select') {
+      event.preventDefault()
+      handleSubmit()
+    }
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleFormShortcuts)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleFormShortcuts)
+})
 </script>
 
 <template>
